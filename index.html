@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FluxoWork - Workflow Manager Pro</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    .container {
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Background animado */
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0.15;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .grid {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background-image: 
+        linear-gradient(rgba(16,185,129,0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16,185,129,0.3) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: moveGrid 20s linear infinite;
+    }
+
+    @keyframes moveGrid {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-50px, -50px); }
+    }
+
+    .radar {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      height: 300px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 2px solid rgba(16,185,129,0.5);
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    .radar::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 200px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 2px solid rgba(249,115,22,0.5);
+      animation: pulse 3s ease-in-out infinite 0.5s;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+      50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(16,185,129,0.6);
+      border-radius: 50%;
+      bottom: -10px;
+      animation: float 15s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh); opacity: 0; }
+    }
+
+    /* Login Card */
+    .login-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(10,20,40,0.4);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(16,185,129,0.25);
+      border-radius: 16px;
+      padding: 40px;
+      min-width: 400px;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .login-card:hover {
+      transform: translate(-50%, -52%);
+      box-shadow: 0 0 30px rgba(16,185,129,0.4);
+    }
+
+    .logo {
+      font-size: 36px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #10b981, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .subtitle {
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .input {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(16,185,129,0.3);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      width: 100%;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .input:focus {
+      border-color: #10b981;
+      box-shadow: 0 0 10px rgba(16,185,129,0.3);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981, #f97316);
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(16,185,129,0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid rgba(16,185,129,0.5);
+      border-radius: 8px;
+      padding: 12px 24px;
+      color: #10b981;
+      font-size: 14px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(16,185,129,0.1);
+      box-shadow: 0 0 15px rgba(16,185,129,0.3);
+    }
+
+    /* Main App */
+    .app {
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(10,20,40,0.4);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(16,185,129,0.25);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981, #f97316);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .username {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .clock {
+      text-align: center;
+    }
+
+    .time {
+      font-size: 24px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #10b981, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .date {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 4px;
+    }
+
+    .header-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: 1px solid rgba(16,185,129,0.3);
+      border-radius: 8px;
+      padding: 10px;
+      color: #10b981;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .icon-btn:hover {
+      background: rgba(16,185,129,0.1);
+      box-shadow: 0 0 15px rgba(16,185,129,0.3);
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 30px 40px;
+    }
+
+    .stat-card {
+      background: rgba(10,20,40,0.4);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(16,185,129,0.25);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      border-color: #10b981;
+      box-shadow: 0 0 20px rgba(16,185,129,0.3);
+    }
+
+    .stat-value {
+      font-size: 36px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #10b981, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      color: rgba(255,255,255,0.6);
+      font-size: 14px;
+    }
+
+    .progress-section {
+      padding: 0 40px 30px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #10b981;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 30px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      overflow: hidden;
+      border: 1px solid rgba(16,185,129,0.25);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #f97316);
+      transition: width 0.5s ease;
+      box-shadow: 0 0 20px rgba(16,185,129,0.5);
+    }
+
+    .progress-text {
+      text-align: center;
+      margin-top: 10px;
+      color: rgba(255,255,255,0.8);
+      font-size: 14px;
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 20px;
+      padding: 0 40px 40px;
+    }
+
+    .card {
+      background: rgba(10,20,40,0.4);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(16,185,129,0.25);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #10b981;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .btn-add {
+      background: transparent;
+      border: 1px solid rgba(16,185,129,0.5);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: #10b981;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 44px;
+    }
+
+    .btn-add:hover {
+      background: rgba(16,185,129,0.1);
+      box-shadow: 0 0 15px rgba(16,185,129,0.3);
+    }
+
+    .workflow-item {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(16,185,129,0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 8px;
+    }
+
+    .workflow-item:hover {
+      background: rgba(16,185,129,0.1);
+      border-color: #10b981;
+    }
+
+    .workflow-item.active {
+      background: rgba(16,185,129,0.2);
+      border-color: #10b981;
+      box-shadow: 0 0 15px rgba(16,185,129,0.3);
+    }
+
+    .workflow-title {
+      font-size: 24px;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #10b981, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .step-wrapper {
+      position: relative;
+    }
+
+    .connector {
+      width: 2px;
+      height: 20px;
+      background: linear-gradient(180deg, #10b981, #f97316);
+      margin: 0 auto;
+    }
+
+    .step-card {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(16,185,129,0.25);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 0;
+    }
+
+    .step-card.overdue {
+      border-color: rgba(255,68,68,0.5);
+      background: rgba(255,0,0,0.05);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .step-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981, #f97316);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-info {
+      flex: 1;
+    }
+
+    .step-name {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .step-date {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .step-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-complete {
+      background: transparent;
+      border: 1px solid rgba(16,185,129,0.5);
+      border-radius: 6px;
+      padding: 6px 12px;
+      color: #10b981;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .btn-expand {
+      background: transparent;
+      border: 1px solid rgba(16,185,129,0.3);
+      border-radius: 6px;
+      padding: 6px 12px;
+      color: #10b981;
+      font-size: 16px;
+      cursor: pointer;
+      min-width: 36px;
+    }
+
+    .step-details {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(16,185,129,0.2);
+    }
+
+    .subsection-title {
+      font-size: 14px;
+      color: #10b981;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .subtask {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      margin-bottom: 6px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 6px;
+    }
+
+    .comment {
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+
+    .comment-date {
+      color: rgba(255,255,255,0.5);
+    }
+
+    .comment-text {
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .btn-danger {
+      background: transparent;
+      border: 1px solid rgba(255,68,68,0.5);
+      border-radius: 8px;
+      padding: 10px 16px;
+      color: #ff4444;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn-danger:hover {
+      background: rgba(255,68,68,0.1);
+      box-shadow: 0 0 15px rgba(255,68,68,0.3);
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: rgba(10,20,40,0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(16,185,129,0.25);
+      border-radius: 16px;
+      padding: 30px;
+      min-width: 500px;
+      max-width: 600px;
+    }
+
+    .modal-title {
+      font-size: 24px;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #10b981, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(16,185,129,0.2);
+    }
+
+    .tab {
+      background: transparent;
+      border: none;
+      padding: 12px 20px;
+      color: rgba(255,255,255,0.6);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab.active {
+      color: #10b981;
+      border-bottom-color: #10b981;
+    }
+
+    .danger-zone {
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,68,68,0.3);
+      background: rgba(255,0,0,0.05);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #10b981;
+    }
+
+    .error {
+      color: #ff4444;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="background">
+      <div class="grid"></div>
+      <div class="radar"></div>
+      <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+      <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+      <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+      <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+      <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+      <div class="particle" style="left: 60%; animation-delay: 0.5s;"></div>
+      <div class="particle" style="left: 70%; animation-delay: 1.5s;"></div>
+      <div class="particle" style="left: 80%; animation-delay: 2.5s;"></div>
+      <div class="particle" style="left: 90%; animation-delay: 3.5s;"></div>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-card">
+      <h1 class="logo">FluxoWork</h1>
+      <p class="subtitle">Workflow Manager Premium</p>
+      <div id="loginForm">
+        <input type="email" id="loginEmail" class="input" placeholder="Email" />
+        <input type="password" id="loginPassword" class="input" placeholder="Senha" />
+        <div id="loginError" class="error hidden"></div>
+        <button id="btnLogin" class="btn-primary">Entrar</button>
+        <button id="btnToggleMode" class="btn-secondary">Criar nova conta</button>
+      </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="appScreen" class="app hidden">
+      <div class="header">
+        <div class="user-info">
+          <div class="avatar" id="userAvatar">U</div>
+          <span class="username" id="userName">Usuário</span>
+        </div>
+        <div class="clock">
+          <div class="time" id="clockTime">00:00:00</div>
+          <div class="date" id="clockDate">-</div>
+        </div>
+        <div class="header-buttons">
+          <button class="icon-btn" id="btnSettings">
+            <i data-lucide="settings"></i>
+          </button>
+          <button class="icon-btn" id="btnLogout">
+            <i data-lucide="log-out"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="dashboard">
+        <div class="stat-card">
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-label">Total de Workflows</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statProgress">0%</div>
+          <div class="stat-label">Progresso Atual</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statCurrent">0</div>
+          <div class="stat-label">Etapas em Andamento</div>
+        </div>
+      </div>
+
+      <div id="progressSection" class="progress-section hidden">
+        <h3 class="section-title">Progresso do Workflow</h3>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+        <div class="progress-text" id="progressText">0% Completo</div>
+      </div>
+
+      <div class="main-content">
+        <div class="sidebar">
+          <div class="card">
+            <h3 class="card-title">Workflows</h3>
+            <div class="input-group">
+              <input type="text" id="newWorkflowName" class="input" placeholder="Novo workflow" />
+              <button id="btnAddWorkflow" class="btn-add">
+                <i data-lucide="plus"></i>
+              </button>
+            </div>
+            <div id="workflowList"></div>
+            <button id="btnDeleteWorkflow" class="btn-danger hidden">
+              <i data-lucide="trash-2"></i> Excluir Workflow
+            </button>
+          </div>
+        </div>
+
+        <div class="content">
+          <div id="workflowContent" class="card">
+            <div style="text-align: center; padding: 60px 20px;">
+              <h2 style="color: #10b981; margin-bottom: 10px;">Nenhum workflow selecionado</h2>
+              <p style="color: rgba(255,255,255,0.6);">Crie um novo workflow para começar</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal hidden">
+      <div class="modal-content">
+        <h2 class="modal-title">Configurações</h2>
+        <div class="tabs">
+          <button class="tab active" data-tab="security">
+            <i data-lucide="shield"></i> Segurança
+          </button>
+          <button class="tab" data-tab="danger">
+            <i data-lucide="alert-triangle"></i> Zona de Perigo
+          </button>
+        </div>
+
+        <div id="tabSecurity">
+          <h3 class="subsection-title">Alterar Senha</h3>
+          <input type="password" id="currentPassword" class="input" placeholder="Senha atual" />
+          <input type="password" id="newPassword" class="input" placeholder="Nova senha" />
+          <input type="password" id="confirmPassword" class="input" placeholder="Confirmar nova senha" />
+          <div id="passwordError" class="error hidden"></div>
+          <button id="btnChangePassword" class="btn-primary">Alterar Senha</button>
+        </div>
+
+        <div id="tabDanger" class="hidden">
+          <div class="danger-zone">
+            <h3 style="color: #ff4444; margin-bottom: 10px;">Ações Irreversíveis</h3>
+            <p style="color: rgba(255,255,255,0.6); margin-bottom: 20px;">
+              Essas ações não podem ser desfeitas. Tenha certeza antes de prosseguir.
+            </p>
+            <button id="btnDeleteAllWorkflows" class="btn-danger">
+              <i data-lucide="trash-2"></i> Excluir Todos os Workflows
+            </button>
+            <button id="btnDeleteAccount" class="btn-danger">
+              <i data-lucide="trash-2"></i> Excluir Conta Permanentemente
+            </button>
+          </div>
+        </div>
+
+        <button id="btnCloseSettings" class="btn-secondary" style="margin-top: 20px;">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged,
+      updatePassword,
+      EmailAuthProvider,
+      reauthenticateWithCredential,
+      deleteUser
+    } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { 
+      getFirestore, 
+      collection, 
+      doc, 
+      setDoc, 
+      getDoc, 
+      getDocs, 
+      deleteDoc,
+      onSnapshot,
+      query,
+      orderBy
+    } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCdQfhKAYwJKya1CtR38uo-vJSyj8m43gw",
+      authDomain: "fluxowork-affe5.firebaseapp.com",
+      projectId: "fluxowork-affe5",
+      storageBucket: "fluxowork-affe5.firebasestorage.app",
+      messagingSenderId: "809315413361",
+      appId: "1:809315413361:web:e05911d5dc7b2c453fdad0"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Global State
+    let currentUser = null;
+    let workflows = [];
+    let selectedWorkflow = null;
+    let loginMode = 'login';
+    let unsubscribeWorkflows = null;
+
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clockTime').textContent = now.toLocaleTimeString('pt-BR');
+      document.getElementById('clockDate').textContent = now.toLocaleDateString('pt-BR', { 
+        weekday: 'long', 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric' 
+      });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Auth State Observer
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        showApp();
+        loadWorkflows();
+      } else {
+        currentUser = null;
+        showLogin();
+      }
+    });
+
+    function showLogin() {
+      document.getElementById('loginScreen').classList.remove('hidden');
+      document.getElementById('appScreen').classList.add('hidden');
+    }
+
+    function showApp() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('appScreen').classList.remove('hidden');
+      document.getElementById('userName').textContent = currentUser.email;
+      document.getElementById('userAvatar').textContent = currentUser.email[0].toUpperCase();
+    }
+
+    // Login/Register
+    document.getElementById('btnLogin').addEventListener('click', async () => {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const errorDiv = document.getElementById('loginError');
+
+      errorDiv.classList.add('hidden');
+
+      if (!email || !password) {
+        errorDiv.textContent = 'Preencha todos os campos';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+
+      if (password.length < 6) {
+        errorDiv.textContent = 'Senha deve ter no mínimo 6 caracteres';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        if (loginMode === 'login') {
+          await signInWithEmailAndPassword(auth, email, password);
+        } else {
+          await createUserWithEmailAndPassword(auth, email, password);
+        }
+      } catch (error) {
+        console.error('Erro:', error);
+        if (error.code === 'auth/email-already-in-use') {
+          errorDiv.textContent = 'Este email já está em uso';
+        } else if (error.code === 'auth/invalid-email') {
+          errorDiv.textContent = 'Email inválido';
+        } else if (error.code === 'auth/weak-password') {
+          errorDiv.textContent = 'Senha muito fraca';
+        } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+          errorDiv.textContent = 'Email ou senha incorretos';
+        } else {
+          errorDiv.textContent = 'Erro ao fazer login. Tente novamente.';
+        }
+        errorDiv.classList.remove('hidden');
+      }
+    });
+
+    document.getElementById('btnToggleMode').addEventListener('click', () => {
+      loginMode = loginMode === 'login' ? 'register' : 'login';
+      document.getElementById('btnLogin').textContent = loginMode === 'login' ? 'Entrar' : 'Criar conta';
+      document.getElementById('btnToggleMode').textContent = loginMode === 'login' ? 'Criar nova conta' : 'Já tenho conta';
+      document.getElementById('loginError').classList.add('hidden');
+    });
+
+    // Logout
+    document.getElementById('btnLogout').addEventListener('click', async () => {
+      if (unsubscribeWorkflows) unsubscribeWorkflows();
+      await signOut(auth);
+    });
+
+    // Load Workflows (Real-time)
+    async function loadWorkflows() {
+      if (!currentUser) return;
+
+      const workflowsRef = collection(db, 'users', currentUser.uid, 'workflows');
+      const q = query(workflowsRef, orderBy('createdAt', 'desc'));
+
+      if (unsubscribeWorkflows) unsubscribeWorkflows();
+
+      unsubscribeWorkflows = onSnapshot(q, (snapshot) => {
+        workflows = [];
+        snapshot.forEach((doc) => {
+          workflows.push({ id: doc.id, ...doc.data() });
+        });
+        renderWorkflows();
+        updateStats();
+      });
+    }
+
+    function renderWorkflows() {
+      const list = document.getElementById('workflowList');
+      list.innerHTML = '';
+
+      workflows.forEach(wf => {
+        const div = document.createElement('div');
+        div.className = 'workflow-item';
+        if (selectedWorkflow && selectedWorkflow.id === wf.id) {
+          div.classList.add('active');
+        }
+        div.textContent = wf.name;
+        div.addEventListener('click', () => selectWorkflow(wf));
+        list.appendChild(div);
+      });
+    }
+
+    function selectWorkflow(wf) {
+      selectedWorkflow = wf;
+      renderWorkflows();
+      renderWorkflowContent();
+      document.getElementById('btnDeleteWorkflow').classList.remove('hidden');
+    }
+
+    function updateStats() {
+      document.getElementById('statTotal').textContent = workflows.length;
+
+      if (selectedWorkflow) {
+        const progress = getProgress(selectedWorkflow);
+        const inProgress = selectedWorkflow.steps.filter(s => s.status === 'progress').length;
+        document.getElementById('statProgress').textContent = progress + '%';
+        document.getElementById('statCurrent').textContent = inProgress;
+        document.getElementById('progressSection').classList.remove('hidden');
+        document.getElementById('progressBar').style.width = progress + '%';
+        document.getElementById('progressText').textContent = progress + '% Completo';
+      } else {
+        document.getElementById('statProgress').textContent = '0%';
+        document.getElementById('statCurrent').textContent = '0';
+        document.getElementById('progressSection').classList.add('hidden');
+      }
+    }
+
+    function getProgress(workflow) {
+      if (!workflow || !workflow.steps || workflow.steps.length === 0) return 0;
+      const completed = workflow.steps.filter(s => s.status === 'completed').length;
+      return Math.round((completed / workflow.steps.length) * 100);
+    }
+
+    // Create Workflow
+    document.getElementById('btnAddWorkflow').addEventListener('click', async () => {
+      const name = document.getElementById('newWorkflowName').value.trim();
+      if (!name) return;
+
+      const newWorkflow = {
+        name,
+        steps: [],
+        createdAt: Date.now()
+      };
+
+      const docRef = doc(collection(db, 'users', currentUser.uid, 'workflows'));
+      await setDoc(docRef, newWorkflow);
+      document.getElementById('newWorkflowName').value = '';
+    });
+
+    // Delete Workflow
+    document.getElementById('btnDeleteWorkflow').addEventListener('click', async () => {
+      if (!selectedWorkflow) return;
+      if (!confirm('Excluir este workflow?')) return;
+
+      await deleteDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id));
+      selectedWorkflow = null;
+      document.getElementById('btnDeleteWorkflow').classList.add('hidden');
+      renderWorkflowContent();
+    });
+
+    // Render Workflow Content
+    function renderWorkflowContent() {
+      const container = document.getElementById('workflowContent');
+
+      if (!selectedWorkflow) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 60px 20px;">
+            <h2 style="color: #10b981; margin-bottom: 10px;">Nenhum workflow selecionado</h2>
+            <p style="color: rgba(255,255,255,0.6);">Crie um novo workflow para começar</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = `
+        <h2 class="workflow-title">${selectedWorkflow.name}</h2>
+        <div class="input-group">
+          <input type="text" id="newStepName" class="input" placeholder="Nome da etapa" />
+          <input type="date" id="newStepDate" class="input" style="width: 180px" />
+          <button id="btnAddStep" class="btn-add"><i data-lucide="plus"></i></button>
+        </div>
+        <div id="stepsList"></div>
+      `;
+
+      container.innerHTML = html;
+      lucide.createIcons();
+
+      document.getElementById('btnAddStep').addEventListener('click', addStep);
+      renderSteps();
+      updateStats();
+    }
+
+    async function addStep() {
+      const name = document.getElementById('newStepName').value.trim();
+      const dueDate = document.getElementById('newStepDate').value;
+
+      if (!name || !dueDate) return;
+
+      const newStep = {
+        id: Date.now().toString(),
+        name,
+        dueDate,
+        status: selectedWorkflow.steps.length === 0 ? 'progress' : 'pending',
+        comments: [],
+        subtasks: []
+      };
+
+      const updatedSteps = [...selectedWorkflow.steps, newStep];
+      await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), {
+        ...selectedWorkflow,
+        steps: updatedSteps
+      });
+
+      document.getElementById('newStepName').value = '';
+      document.getElementById('newStepDate').value = '';
+    }
+
+    function renderSteps() {
+      const container = document.getElementById('stepsList');
+      if (!selectedWorkflow.steps || selectedWorkflow.steps.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      let html = '';
+      selectedWorkflow.steps.forEach((step, idx) => {
+        const isLocked = idx > 0 && selectedWorkflow.steps[idx - 1].status !== 'completed';
+        const overdue = step.status !== 'completed' && new Date(step.dueDate) < new Date();
+
+        const iconName = isLocked ? 'lock' : (step.status === 'completed' ? 'check' : 'play');
+
+        html += `
+          <div class="step-wrapper">
+            ${idx > 0 ? '<div class="connector"></div>' : ''}
+            <div class="step-card ${overdue ? 'overdue' : ''}">
+              <div class="step-header">
+                <div class="step-icon">
+                  <i data-lucide="${iconName}"></i>
+                </div>
+                <div class="step-info">
+                  <div class="step-name">${step.name}</div>
+                  <div class="step-date">
+                    <i data-lucide="calendar"></i>
+                    ${new Date(step.dueDate).toLocaleDateString('pt-BR')}
+                  </div>
+                </div>
+                <div class="step-actions">
+                  ${!isLocked && step.status !== 'completed' ? 
+                    `<button class="btn-complete" onclick="completeStep('${step.id}')">Concluir</button>` : ''}
+                  <button class="btn-expand" onclick="toggleStep('${step.id}')">+</button>
+                </div>
+              </div>
+              <div id="details-${step.id}" class="step-details hidden">
+                <div>
+                  <h4 class="subsection-title">Sub-etapas</h4>
+                  <div id="subtasks-${step.id}">
+                    ${step.subtasks.map(st => `
+                      <div class="subtask">
+                        <input type="checkbox" ${st.done ? 'checked' : ''} 
+                          onchange="toggleSubtask('${step.id}', '${st.id}')">
+                        <span style="${st.done ? 'text-decoration: line-through' : ''}">${st.text}</span>
+                      </div>
+                    `).join('')}
+                  </div>
+                  <div class="input-group">
+                    <input type="text" id="newSubtask-${step.id}" class="input" placeholder="Nova sub-etapa" />
+                    <button class="btn-add" onclick="addSubtask('${step.id}')">
+                      <i data-lucide="plus"></i>
+                    </button>
+                  </div>
+                </div>
+                <div style="margin-top: 20px;">
+                  <h4 class="subsection-title">
+                    <i data-lucide="message-square"></i> Comentários
+                  </h4>
+                  <div id="comments-${step.id}">
+                    ${step.comments.map(c => `
+                      <div class="comment">
+                        <div class="comment-header">
+                          <strong>${c.user}</strong>
+                          <span class="comment-date">${c.date}</span>
+                        </div>
+                        <div class="comment-text">${c.text}</div>
+                      </div>
+                    `).join('')}
+                  </div>
+                  <div class="input-group">
+                    <input type="text" id="newComment-${step.id}" class="input" placeholder="Adicionar comentário" />
+                    <button class="btn-add" onclick="addComment('${step.id}')">
+                      <i data-lucide="plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      lucide.createIcons();
+    }
+
+    window.toggleStep = (stepId) => {
+      const details = document.getElementById(`details-${stepId}`);
+      details.classList.toggle('hidden');
+      lucide.createIcons();
+    };
+
+    window.completeStep = async (stepId) => {
+      const stepIdx = selectedWorkflow.steps.findIndex(s => s.id === stepId);
+      if (stepIdx === -1) return;
+
+      const updatedSteps = [...selectedWorkflow.steps];
+      updatedSteps[stepIdx].status = 'completed';
+
+      if (stepIdx + 1 < updatedSteps.length) {
+        updatedSteps[stepIdx + 1].status = 'progress';
+      }
+
+      await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), {
+        ...selectedWorkflow,
+        steps: updatedSteps
+      });
+    };
+
+    window.addSubtask = async (stepId) => {
+      const input = document.getElementById(`newSubtask-${stepId}`);
+      const text = input.value.trim();
+      if (!text) return;
+
+      const stepIdx = selectedWorkflow.steps.findIndex(s => s.id === stepId);
+      const updatedSteps = [...selectedWorkflow.steps];
+      updatedSteps[stepIdx].subtasks.push({
+        id: Date.now().toString(),
+        text,
+        done: false
+      });
+
+      await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), {
+        ...selectedWorkflow,
+        steps: updatedSteps
+      });
+
+      input.value = '';
+    };
+
+    window.toggleSubtask = async (stepId, subtaskId) => {
+      const stepIdx = selectedWorkflow.steps.findIndex(s => s.id === stepId);
+      const updatedSteps = [...selectedWorkflow.steps];
+      const subtaskIdx = updatedSteps[stepIdx].subtasks.findIndex(st => st.id === subtaskId);
+      updatedSteps[stepIdx].subtasks[subtaskIdx].done = !updatedSteps[stepIdx].subtasks[subtaskIdx].done;
+
+      await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), {
+        ...selectedWorkflow,
+        steps: updatedSteps
+      });
+    };
+
+    window.addComment = async (stepId) => {
+      const input = document.getElementById(`newComment-${stepId}`);
+      const text = input.value.trim();
+      if (!text) return;
+
+      const stepIdx = selectedWorkflow.steps.findIndex(s => s.id === stepId);
+      const updatedSteps = [...selectedWorkflow.steps];
+      updatedSteps[stepIdx].comments.push({
+        user: currentUser.email,
+        text,
+        date: new Date().toLocaleString('pt-BR')
+      });
+
+      await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), {
+        ...selectedWorkflow,
+        steps: updatedSteps
+      });
+
+      input.value = '';
+    };
+
+    // Settings Modal
+    document.getElementById('btnSettings').addEventListener('click', () => {
+      document.getElementById('settingsModal').classList.remove('hidden');
+    });
+
+    document.getElementById('btnCloseSettings').addEventListener('click', () => {
+      document.getElementById('settingsModal').classList.add('hidden');
+    });
+
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const tabName = tab.dataset.tab;
+        document.getElementById('tabSecurity').classList.add('hidden');
+        document.getElementById('tabDanger').classList.add('hidden');
+
+        if (tabName === 'security') {
+          document.getElementById('tabSecurity').classList.remove('hidden');
+        } else {
+          document.getElementById('tabDanger').classList.remove('hidden');
+        }
+        lucide.createIcons();
+      });
+    });
+
+    // Change Password
+    document.getElementById('btnChangePassword').addEventListener('click', async () => {
+      const current = document.getElementById('currentPassword').value;
+      const newPass = document.getElementById('newPassword').value;
+      const confirm = document.getElementById('confirmPassword').value;
+      const errorDiv = document.getElementById('passwordError');
+
+      errorDiv.classList.add('hidden');
+
+      if (!current || !newPass || !confirm) {
+        errorDiv.textContent = 'Preencha todos os campos';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+
+      if (newPass.length < 6) {
+        errorDiv.textContent = 'Nova senha deve ter no mínimo 6 caracteres';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+
+      if (newPass !== confirm) {
+        errorDiv.textContent = 'As senhas não coincidem';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const credential = EmailAuthProvider.credential(currentUser.email, current);
+        await reauthenticateWithCredential(currentUser, credential);
+        await updatePassword(currentUser, newPass);
+        alert('Senha alterada com sucesso!');
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+      } catch (error) {
+        console.error('Erro:', error);
+        errorDiv.textContent = 'Senha atual incorreta';
+        errorDiv.classList.remove('hidden');
+      }
+    });
+
+    // Delete All Workflows
+    document.getElementById('btnDeleteAllWorkflows').addEventListener('click', async () => {
+      if (!confirm('ATENÇÃO: Isso excluirá TODOS os seus workflows permanentemente. Confirma?')) return;
+
+      const workflowsRef = collection(db, 'users', currentUser.uid, 'workflows');
+      const snapshot = await getDocs(workflowsRef);
+      
+      for (const docSnapshot of snapshot.docs) {
+        await deleteDoc(docSnapshot.ref);
+      }
+
+      selectedWorkflow = null;
+      document.getElementById('settingsModal').classList.add('hidden');
+    });
+
+    // Delete Account
+    document.getElementById('btnDeleteAccount').addEventListener('click', async () => {
+      if (!confirm('ATENÇÃO: Isso excluirá sua conta e todos os dados permanentemente. Confirma?')) return;
+
+      try {
+        const workflowsRef = collection(db, 'users', currentUser.uid, 'workflows');
+        const snapshot = await getDocs(workflowsRef);
+        
+        for (const docSnapshot of snapshot.docs) {
+          await deleteDoc(docSnapshot.ref);
+        }
+
+        await deleteUser(currentUser);
+      } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao excluir conta. Tente fazer login novamente.');
+      }
+    });
+  </script>
+</body>
+</html>
