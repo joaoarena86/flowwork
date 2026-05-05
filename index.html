@@ -2,29 +2,18 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FluxoWork - Workflow Manager Pro</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>FluxoWork - Workflow Manager</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #000;
       color: #fff;
       overflow-x: hidden;
     }
-
-    .container {
-      min-height: 100vh;
-      position: relative;
-    }
-
-    /* Background animado */
+    .container { min-height: 100vh; position: relative; }
     .background {
       position: fixed;
       top: 0;
@@ -36,23 +25,15 @@
       overflow: hidden;
       z-index: 0;
     }
-
     .grid {
       position: absolute;
       width: 200%;
       height: 200%;
-      background-image: 
-        linear-gradient(rgba(16,185,129,0.3) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(16,185,129,0.3) 1px, transparent 1px);
+      background-image: linear-gradient(rgba(16,185,129,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(16,185,129,0.3) 1px, transparent 1px);
       background-size: 50px 50px;
       animation: moveGrid 20s linear infinite;
     }
-
-    @keyframes moveGrid {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(-50px, -50px); }
-    }
-
+    @keyframes moveGrid { 0% { transform: translate(0, 0); } 100% { transform: translate(-50px, -50px); } }
     .radar {
       position: absolute;
       top: 50%;
@@ -64,7 +45,6 @@
       border: 2px solid rgba(16,185,129,0.5);
       animation: pulse 3s ease-in-out infinite;
     }
-
     .radar::before {
       content: '';
       position: absolute;
@@ -77,12 +57,7 @@
       border: 2px solid rgba(249,115,22,0.5);
       animation: pulse 3s ease-in-out infinite 0.5s;
     }
-
-    @keyframes pulse {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-      50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
-    }
-
+    @keyframes pulse { 0%,100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; } 50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; } }
     .particle {
       position: absolute;
       width: 4px;
@@ -92,15 +67,7 @@
       bottom: -10px;
       animation: float 15s linear infinite;
     }
-
-    @keyframes float {
-      0% { transform: translateY(0); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(-100vh); opacity: 0; }
-    }
-
-    /* Login Card */
+    @keyframes float { 0% { transform: translateY(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100vh); opacity: 0; } }
     .login-card {
       position: absolute;
       top: 50%;
@@ -115,29 +82,9 @@
       transition: all 0.3s ease;
       z-index: 10;
     }
-
-    .login-card:hover {
-      transform: translate(-50%, -52%);
-      box-shadow: 0 0 30px rgba(16,185,129,0.4);
-    }
-
-    .logo {
-      font-size: 36px;
-      font-weight: bold;
-      background: linear-gradient(135deg, #10b981, #f97316);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-
-    .subtitle {
-      color: rgba(255,255,255,0.6);
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 14px;
-    }
-
+    .login-card:hover { transform: translate(-50%, -52%); box-shadow: 0 0 30px rgba(16,185,129,0.4); }
+    .logo { font-size: 36px; font-weight: bold; background: linear-gradient(135deg, #10b981, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; text-align: center; }
+    .subtitle { color: rgba(255,255,255,0.6); text-align: center; margin-bottom: 30px; font-size: 14px; }
     .input {
       background: rgba(0,0,0,0.3);
       border: 1px solid rgba(16,185,129,0.3);
@@ -150,12 +97,7 @@
       margin-bottom: 15px;
       transition: all 0.3s ease;
     }
-
-    .input:focus {
-      border-color: #10b981;
-      box-shadow: 0 0 10px rgba(16,185,129,0.3);
-    }
-
+    .input:focus { border-color: #10b981; box-shadow: 0 0 10px rgba(16,185,129,0.3); }
     .btn-primary {
       background: linear-gradient(135deg, #10b981, #f97316);
       border: none;
@@ -168,12 +110,7 @@
       width: 100%;
       transition: all 0.3s ease;
     }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 20px rgba(16,185,129,0.4);
-    }
-
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(16,185,129,0.4); }
     .btn-secondary {
       background: transparent;
       border: 1px solid rgba(16,185,129,0.5);
@@ -186,18 +123,8 @@
       margin-top: 10px;
       transition: all 0.3s ease;
     }
-
-    .btn-secondary:hover {
-      background: rgba(16,185,129,0.1);
-      box-shadow: 0 0 15px rgba(16,185,129,0.3);
-    }
-
-    /* Main App */
-    .app {
-      position: relative;
-      z-index: 1;
-    }
-
+    .btn-secondary:hover { background: rgba(16,185,129,0.1); box-shadow: 0 0 15px rgba(16,185,129,0.3); }
+    .app { position: relative; z-index: 1; }
     .header {
       display: flex;
       justify-content: space-between;
@@ -206,14 +133,10 @@
       background: rgba(10,20,40,0.4);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(16,185,129,0.25);
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
+      flex-wrap: wrap;
       gap: 15px;
     }
-
+    .user-info { display: flex; align-items: center; gap: 15px; }
     .avatar {
       width: 48px;
       height: 48px;
@@ -225,57 +148,34 @@
       font-size: 20px;
       font-weight: bold;
     }
-
-    .username {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .clock {
-      text-align: center;
-    }
-
-    .time {
-      font-size: 24px;
-      font-weight: bold;
-      background: linear-gradient(135deg, #10b981, #f97316);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .date {
-      font-size: 12px;
-      color: rgba(255,255,255,0.6);
-      margin-top: 4px;
-    }
-
-    .header-buttons {
-      display: flex;
-      gap: 10px;
-    }
-
+    .username { font-size: 18px; font-weight: 600; }
+    .clock { text-align: center; }
+    .time { font-size: 24px; font-weight: bold; background: linear-gradient(135deg, #10b981, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .date { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 4px; }
+    .header-buttons { display: flex; gap: 10px; }
     .icon-btn {
-      background: transparent;
+      background: rgba(10,20,40,0.4);
+      backdrop-filter: blur(12px);
       border: 1px solid rgba(16,185,129,0.3);
       border-radius: 8px;
-      padding: 10px;
+      padding: 10px 16px;
       color: #10b981;
       cursor: pointer;
       transition: all 0.3s ease;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-
-    .icon-btn:hover {
-      background: rgba(16,185,129,0.1);
-      box-shadow: 0 0 15px rgba(16,185,129,0.3);
-    }
-
+    .icon-btn i { font-size: 16px; }
+    .icon-btn:hover { background: rgba(16,185,129,0.2); box-shadow: 0 0 15px rgba(16,185,129,0.3); }
     .dashboard {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
       padding: 30px 40px;
     }
-
     .stat-card {
       background: rgba(10,20,40,0.4);
       backdrop-filter: blur(12px);
@@ -285,13 +185,7 @@
       text-align: center;
       transition: all 0.3s ease;
     }
-
-    .stat-card:hover {
-      transform: translateY(-2px);
-      border-color: #10b981;
-      box-shadow: 0 0 20px rgba(16,185,129,0.3);
-    }
-
+    .stat-card:hover { transform: translateY(-2px); border-color: #10b981; box-shadow: 0 0 20px rgba(16,185,129,0.3); }
     .stat-value {
       font-size: 36px;
       font-weight: bold;
@@ -300,22 +194,9 @@
       -webkit-text-fill-color: transparent;
       margin-bottom: 8px;
     }
-
-    .stat-label {
-      color: rgba(255,255,255,0.6);
-      font-size: 14px;
-    }
-
-    .progress-section {
-      padding: 0 40px 30px;
-    }
-
-    .section-title {
-      font-size: 18px;
-      margin-bottom: 15px;
-      color: #10b981;
-    }
-
+    .stat-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+    .progress-section { padding: 0 40px 30px; }
+    .section-title { font-size: 18px; margin-bottom: 15px; color: #10b981; }
     .progress-bar {
       width: 100%;
       height: 30px;
@@ -324,28 +205,19 @@
       overflow: hidden;
       border: 1px solid rgba(16,185,129,0.25);
     }
-
     .progress-fill {
       height: 100%;
       background: linear-gradient(90deg, #10b981, #f97316);
       transition: width 0.5s ease;
       box-shadow: 0 0 20px rgba(16,185,129,0.5);
     }
-
-    .progress-text {
-      text-align: center;
-      margin-top: 10px;
-      color: rgba(255,255,255,0.8);
-      font-size: 14px;
-    }
-
+    .progress-text { text-align: center; margin-top: 10px; color: rgba(255,255,255,0.8); font-size: 14px; }
     .main-content {
       display: grid;
       grid-template-columns: 300px 1fr;
       gap: 20px;
       padding: 0 40px 40px;
     }
-
     .card {
       background: rgba(10,20,40,0.4);
       backdrop-filter: blur(12px);
@@ -353,35 +225,24 @@
       border-radius: 12px;
       padding: 24px;
     }
-
-    .card-title {
-      font-size: 18px;
-      margin-bottom: 15px;
-      color: #10b981;
-    }
-
-    .input-group {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
+    .card-title { font-size: 18px; margin-bottom: 15px; color: #10b981; }
+    .input-group { display: flex; gap: 10px; margin-bottom: 15px; }
     .btn-add {
-      background: transparent;
+      background: rgba(10,20,40,0.4);
+      backdrop-filter: blur(12px);
       border: 1px solid rgba(16,185,129,0.5);
       border-radius: 8px;
-      padding: 8px 12px;
+      padding: 10px 16px;
       color: #10b981;
       cursor: pointer;
       transition: all 0.3s ease;
-      min-width: 44px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-
-    .btn-add:hover {
-      background: rgba(16,185,129,0.1);
-      box-shadow: 0 0 15px rgba(16,185,129,0.3);
-    }
-
+    .btn-add:hover { background: rgba(16,185,129,0.2); box-shadow: 0 0 15px rgba(16,185,129,0.3); }
     .workflow-item {
       padding: 12px;
       border-radius: 8px;
@@ -390,18 +251,8 @@
       transition: all 0.3s ease;
       margin-bottom: 8px;
     }
-
-    .workflow-item:hover {
-      background: rgba(16,185,129,0.1);
-      border-color: #10b981;
-    }
-
-    .workflow-item.active {
-      background: rgba(16,185,129,0.2);
-      border-color: #10b981;
-      box-shadow: 0 0 15px rgba(16,185,129,0.3);
-    }
-
+    .workflow-item:hover { background: rgba(16,185,129,0.1); border-color: #10b981; }
+    .workflow-item.active { background: rgba(16,185,129,0.2); border-color: #10b981; box-shadow: 0 0 15px rgba(16,185,129,0.3); }
     .workflow-title {
       font-size: 24px;
       margin-bottom: 20px;
@@ -409,18 +260,8 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
-    .step-wrapper {
-      position: relative;
-    }
-
-    .connector {
-      width: 2px;
-      height: 20px;
-      background: linear-gradient(180deg, #10b981, #f97316);
-      margin: 0 auto;
-    }
-
+    .step-wrapper { position: relative; }
+    .connector { width: 2px; height: 20px; background: linear-gradient(180deg, #10b981, #f97316); margin: 0 auto; }
     .step-card {
       background: rgba(0,0,0,0.3);
       border: 1px solid rgba(16,185,129,0.25);
@@ -428,18 +269,8 @@
       padding: 16px;
       margin-bottom: 0;
     }
-
-    .step-card.overdue {
-      border-color: rgba(255,68,68,0.5);
-      background: rgba(255,0,0,0.05);
-    }
-
-    .step-header {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
+    .step-card.overdue { border-color: rgba(255,68,68,0.5); background: rgba(255,0,0,0.05); }
+    .step-header { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
     .step-icon {
       width: 40px;
       height: 40px;
@@ -450,66 +281,36 @@
       justify-content: center;
       flex-shrink: 0;
     }
-
-    .step-info {
-      flex: 1;
-    }
-
-    .step-name {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .step-date {
-      font-size: 12px;
-      color: rgba(255,255,255,0.6);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .step-actions {
-      display: flex;
-      gap: 8px;
-    }
-
+    .step-info { flex: 1; }
+    .step-name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .step-date { font-size: 12px; color: rgba(255,255,255,0.6); display: flex; align-items: center; gap: 6px; }
+    .step-actions { display: flex; gap: 8px; }
     .btn-complete {
-      background: transparent;
+      background: rgba(10,20,40,0.4);
+      backdrop-filter: blur(12px);
       border: 1px solid rgba(16,185,129,0.5);
       border-radius: 6px;
       padding: 6px 12px;
       color: #10b981;
       font-size: 12px;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
-
+    .btn-complete:hover { background: rgba(16,185,129,0.2); }
     .btn-expand {
-      background: transparent;
+      background: rgba(10,20,40,0.4);
+      backdrop-filter: blur(12px);
       border: 1px solid rgba(16,185,129,0.3);
       border-radius: 6px;
       padding: 6px 12px;
       color: #10b981;
-      font-size: 16px;
-      cursor: pointer;
-      min-width: 36px;
-    }
-
-    .step-details {
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(16,185,129,0.2);
-    }
-
-    .subsection-title {
       font-size: 14px;
-      color: #10b981;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
-
+    .btn-expand:hover { background: rgba(16,185,129,0.2); }
+    .step-details { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(16,185,129,0.2); }
+    .subsection-title { font-size: 14px; color: #10b981; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
     .subtask {
       display: flex;
       align-items: center;
@@ -519,32 +320,18 @@
       background: rgba(0,0,0,0.2);
       border-radius: 6px;
     }
-
     .comment {
       background: rgba(0,0,0,0.2);
       border-radius: 8px;
       padding: 12px;
       margin-bottom: 10px;
     }
-
-    .comment-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-      font-size: 12px;
-    }
-
-    .comment-date {
-      color: rgba(255,255,255,0.5);
-    }
-
-    .comment-text {
-      font-size: 14px;
-      color: rgba(255,255,255,0.8);
-    }
-
+    .comment-header { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px; }
+    .comment-date { color: rgba(255,255,255,0.5); }
+    .comment-text { font-size: 14px; color: rgba(255,255,255,0.8); }
     .btn-danger {
-      background: transparent;
+      background: rgba(10,20,40,0.4);
+      backdrop-filter: blur(12px);
       border: 1px solid rgba(255,68,68,0.5);
       border-radius: 8px;
       padding: 10px 16px;
@@ -552,14 +339,15 @@
       cursor: pointer;
       width: 100%;
       margin-top: 10px;
+      transition: all 0.3s ease;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-
-    .btn-danger:hover {
-      background: rgba(255,68,68,0.1);
-      box-shadow: 0 0 15px rgba(255,68,68,0.3);
-    }
-
-    /* Modal */
+    .btn-danger:hover { background: rgba(255,68,68,0.15); box-shadow: 0 0 15px rgba(255,68,68,0.3); }
     .modal {
       position: fixed;
       top: 0;
@@ -572,7 +360,6 @@
       justify-content: center;
       z-index: 1000;
     }
-
     .modal-content {
       background: rgba(10,20,40,0.95);
       backdrop-filter: blur(12px);
@@ -582,7 +369,6 @@
       min-width: 500px;
       max-width: 600px;
     }
-
     .modal-title {
       font-size: 24px;
       margin-bottom: 20px;
@@ -590,14 +376,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid rgba(16,185,129,0.2);
-    }
-
+    .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(16,185,129,0.2); }
     .tab {
       background: transparent;
       border: none;
@@ -608,34 +387,24 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      font-size: 14px;
     }
-
-    .tab.active {
-      color: #10b981;
-      border-bottom-color: #10b981;
-    }
-
+    .tab.active { color: #10b981; border-bottom-color: #10b981; }
     .danger-zone {
       padding: 20px;
       border-radius: 8px;
       border: 1px solid rgba(255,68,68,0.3);
       background: rgba(255,0,0,0.05);
     }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: #10b981;
-    }
-
-    .error {
-      color: #ff4444;
-      font-size: 12px;
-      margin-top: 5px;
+    .hidden { display: none !important; }
+    .error { color: #ff4444; font-size: 12px; margin-top: 5px; }
+    @media (max-width: 768px) {
+      .login-card { min-width: 90%; padding: 30px; }
+      .header { flex-direction: column; text-align: center; }
+      .main-content { grid-template-columns: 1fr; }
+      .dashboard { padding: 20px; }
+      .main-content { padding: 0 20px 20px; }
+      .modal-content { min-width: 90%; }
     }
   </style>
 </head>
@@ -657,10 +426,10 @@
 
     <!-- Login Screen -->
     <div id="loginScreen" class="login-card">
-      <h1 class="logo">FluxoWork</h1>
-      <p class="subtitle">Workflow Manager Premium</p>
+      <div class="logo">FluxoWork</div>
+      <div class="subtitle">Workflow Manager</div>
       <div id="loginForm">
-        <input type="email" id="loginEmail" class="input" placeholder="Email" />
+        <input type="email" id="loginEmail" class="input" placeholder="E-mail" />
         <input type="password" id="loginPassword" class="input" placeholder="Senha" />
         <div id="loginError" class="error hidden"></div>
         <button id="btnLogin" class="btn-primary">Entrar</button>
@@ -680,60 +449,42 @@
           <div class="date" id="clockDate">-</div>
         </div>
         <div class="header-buttons">
-          <button class="icon-btn" id="btnSettings">
-            <i data-lucide="settings"></i>
-          </button>
-          <button class="icon-btn" id="btnLogout">
-            <i data-lucide="log-out"></i>
-          </button>
+          <button class="icon-btn" id="btnSettings"><i class="fas fa-cog"></i> Configurações</button>
+          <button class="icon-btn" id="btnLogout"><i class="fas fa-sign-out-alt"></i> Sair</button>
         </div>
       </div>
 
       <div class="dashboard">
-        <div class="stat-card">
-          <div class="stat-value" id="statTotal">0</div>
-          <div class="stat-label">Total de Workflows</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="statProgress">0%</div>
-          <div class="stat-label">Progresso Atual</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="statCurrent">0</div>
-          <div class="stat-label">Etapas em Andamento</div>
-        </div>
+        <div class="stat-card"><div class="stat-value" id="statTotal">0</div><div class="stat-label">Workflows</div></div>
+        <div class="stat-card"><div class="stat-value" id="statProgress">0%</div><div class="stat-label">Progresso</div></div>
+        <div class="stat-card"><div class="stat-value" id="statCurrent">0</div><div class="stat-label">Em andamento</div></div>
       </div>
 
       <div id="progressSection" class="progress-section hidden">
-        <h3 class="section-title">Progresso do Workflow</h3>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressBar" style="width: 0%"></div>
-        </div>
+        <div class="section-title">Progresso do Workflow</div>
+        <div class="progress-bar"><div class="progress-fill" id="progressBar" style="width: 0%"></div></div>
         <div class="progress-text" id="progressText">0% Completo</div>
       </div>
 
       <div class="main-content">
         <div class="sidebar">
           <div class="card">
-            <h3 class="card-title">Workflows</h3>
+            <div class="card-title">Workflows</div>
             <div class="input-group">
-              <input type="text" id="newWorkflowName" class="input" placeholder="Novo workflow" />
-              <button id="btnAddWorkflow" class="btn-add">
-                <i data-lucide="plus"></i>
-              </button>
+              <input type="text" id="newWorkflowName" class="input" placeholder="Novo workflow..." />
+              <button id="btnAddWorkflow" class="btn-add"><i class="fas fa-plus"></i> Criar</button>
             </div>
             <div id="workflowList"></div>
-            <button id="btnDeleteWorkflow" class="btn-danger hidden">
-              <i data-lucide="trash-2"></i> Excluir Workflow
-            </button>
+            <button id="btnDeleteWorkflow" class="btn-danger hidden"><i class="fas fa-trash-alt"></i> Excluir Workflow</button>
           </div>
         </div>
 
         <div class="content">
           <div id="workflowContent" class="card">
             <div style="text-align: center; padding: 60px 20px;">
-              <h2 style="color: #10b981; margin-bottom: 10px;">Nenhum workflow selecionado</h2>
-              <p style="color: rgba(255,255,255,0.6);">Crie um novo workflow para começar</p>
+              <div style="color: #10b981; margin-bottom: 10px; font-size: 48px;">📋</div>
+              <h3 style="margin-bottom: 10px;">Nenhum workflow selecionado</h3>
+              <p style="color: rgba(255,255,255,0.6);">Crie ou selecione um workflow</p>
             </div>
           </div>
         </div>
@@ -743,40 +494,26 @@
     <!-- Settings Modal -->
     <div id="settingsModal" class="modal hidden">
       <div class="modal-content">
-        <h2 class="modal-title">Configurações</h2>
+        <div class="modal-title">Configurações</div>
         <div class="tabs">
-          <button class="tab active" data-tab="security">
-            <i data-lucide="shield"></i> Segurança
-          </button>
-          <button class="tab" data-tab="danger">
-            <i data-lucide="alert-triangle"></i> Zona de Perigo
-          </button>
+          <button class="tab active" data-tab="security"><i class="fas fa-shield-alt"></i> Segurança</button>
+          <button class="tab" data-tab="danger"><i class="fas fa-exclamation-triangle"></i> Perigo</button>
         </div>
-
         <div id="tabSecurity">
-          <h3 class="subsection-title">Alterar Senha</h3>
           <input type="password" id="currentPassword" class="input" placeholder="Senha atual" />
           <input type="password" id="newPassword" class="input" placeholder="Nova senha" />
-          <input type="password" id="confirmPassword" class="input" placeholder="Confirmar nova senha" />
+          <input type="password" id="confirmPassword" class="input" placeholder="Confirmar" />
           <div id="passwordError" class="error hidden"></div>
           <button id="btnChangePassword" class="btn-primary">Alterar Senha</button>
         </div>
-
         <div id="tabDanger" class="hidden">
           <div class="danger-zone">
-            <h3 style="color: #ff4444; margin-bottom: 10px;">Ações Irreversíveis</h3>
-            <p style="color: rgba(255,255,255,0.6); margin-bottom: 20px;">
-              Essas ações não podem ser desfeitas. Tenha certeza antes de prosseguir.
-            </p>
-            <button id="btnDeleteAllWorkflows" class="btn-danger">
-              <i data-lucide="trash-2"></i> Excluir Todos os Workflows
-            </button>
-            <button id="btnDeleteAccount" class="btn-danger">
-              <i data-lucide="trash-2"></i> Excluir Conta Permanentemente
-            </button>
+            <h3 style="color: #ff4444;"><i class="fas fa-skull-crosswalk"></i> Ações Irreversíveis</h3>
+            <p style="margin: 16px 0;">Essas ações não podem ser desfeitas</p>
+            <button id="btnDeleteAllWorkflows" class="btn-danger"><i class="fas fa-trash-alt"></i> Excluir TODOS Workflows</button>
+            <button id="btnDeleteAccount" class="btn-danger"><i class="fas fa-user-slash"></i> Excluir Minha Conta</button>
           </div>
         </div>
-
         <button id="btnCloseSettings" class="btn-secondary" style="margin-top: 20px;">Fechar</button>
       </div>
     </div>
@@ -800,7 +537,6 @@
       collection, 
       doc, 
       setDoc, 
-      getDoc, 
       getDocs, 
       deleteDoc,
       onSnapshot,
@@ -808,7 +544,7 @@
       orderBy
     } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-    // Firebase Config - PROJETO CORRETO
+    // ========== CONFIGURAÇÃO DO FIREBASE (SUA) ==========
     const firebaseConfig = {
       apiKey: "AIzaSyCuLoVKC2JZ08Aup_oYcTxj3YTpe_PhNKc",
       authDomain: "fluxowork-7b7ef.firebaseapp.com",
@@ -822,34 +558,39 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Initialize Lucide Icons
-    lucide.createIcons();
-
-    // Global State
+    // Variáveis globais
     let currentUser = null;
     let workflows = [];
     let selectedWorkflow = null;
-    let loginMode = 'login';
     let unsubscribeWorkflows = null;
 
-    // Clock
+    // Atualizar relógio
     function updateClock() {
       const now = new Date();
-      document.getElementById('clockTime').textContent = now.toLocaleTimeString('pt-BR');
-      document.getElementById('clockDate').textContent = now.toLocaleDateString('pt-BR', { 
-        weekday: 'long', 
-        day: 'numeric', 
-        month: 'long', 
-        year: 'numeric' 
-      });
+      const timeEl = document.getElementById('clockTime');
+      const dateEl = document.getElementById('clockDate');
+      if (timeEl) timeEl.textContent = now.toLocaleTimeString('pt-BR');
+      if (dateEl) dateEl.textContent = now.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
     }
     setInterval(updateClock, 1000);
     updateClock();
+
+    // Mostrar/esconder telas
+    function showLogin() {
+      document.getElementById('loginScreen').classList.remove('hidden');
+      document.getElementById('appScreen').classList.add('hidden');
+    }
+    function showApp() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('appScreen').classList.remove('hidden');
+    }
 
     // Auth State Observer
     onAuthStateChanged(auth, (user) => {
       if (user) {
         currentUser = user;
+        document.getElementById('userName').textContent = user.email;
+        document.getElementById('userAvatar').textContent = user.email[0].toUpperCase();
         showApp();
         loadWorkflows();
       } else {
@@ -858,24 +599,11 @@
       }
     });
 
-    function showLogin() {
-      document.getElementById('loginScreen').classList.remove('hidden');
-      document.getElementById('appScreen').classList.add('hidden');
-    }
-
-    function showApp() {
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('appScreen').classList.remove('hidden');
-      document.getElementById('userName').textContent = currentUser.email;
-      document.getElementById('userAvatar').textContent = currentUser.email[0].toUpperCase();
-    }
-
-    // Login/Register
+    // Login/Registro
     document.getElementById('btnLogin').addEventListener('click', async () => {
       const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value;
       const errorDiv = document.getElementById('loginError');
-
       errorDiv.classList.add('hidden');
 
       if (!email || !password) {
@@ -884,49 +612,42 @@
         return;
       }
 
-      if (password.length < 6) {
-        errorDiv.textContent = 'Senha deve ter no mínimo 6 caracteres';
-        errorDiv.classList.remove('hidden');
-        return;
-      }
-
+      const mode = document.getElementById('btnLogin').textContent;
       try {
-        if (loginMode === 'login') {
+        if (mode === 'Entrar') {
           await signInWithEmailAndPassword(auth, email, password);
         } else {
           await createUserWithEmailAndPassword(auth, email, password);
         }
       } catch (error) {
-        console.error('Erro:', error);
-        if (error.code === 'auth/email-already-in-use') {
-          errorDiv.textContent = 'Este email já está em uso';
-        } else if (error.code === 'auth/invalid-email') {
-          errorDiv.textContent = 'Email inválido';
-        } else if (error.code === 'auth/weak-password') {
-          errorDiv.textContent = 'Senha muito fraca';
-        } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-          errorDiv.textContent = 'Email ou senha incorretos';
-        } else {
-          errorDiv.textContent = 'Erro ao fazer login. Tente novamente.';
-        }
+        if (error.code === 'auth/email-already-in-use') errorDiv.textContent = 'E-mail já cadastrado';
+        else if (error.code === 'auth/user-not-found') errorDiv.textContent = 'Usuário não encontrado';
+        else if (error.code === 'auth/wrong-password') errorDiv.textContent = 'Senha incorreta';
+        else if (error.code === 'auth/weak-password') errorDiv.textContent = 'Senha muito fraca (mínimo 6 caracteres)';
+        else errorDiv.textContent = 'Erro: ' + error.message;
         errorDiv.classList.remove('hidden');
       }
     });
 
     document.getElementById('btnToggleMode').addEventListener('click', () => {
-      loginMode = loginMode === 'login' ? 'register' : 'login';
-      document.getElementById('btnLogin').textContent = loginMode === 'login' ? 'Entrar' : 'Criar conta';
-      document.getElementById('btnToggleMode').textContent = loginMode === 'login' ? 'Criar nova conta' : 'Já tenho conta';
+      const btn = document.getElementById('btnLogin');
+      const toggle = document.getElementById('btnToggleMode');
+      if (btn.textContent === 'Entrar') {
+        btn.textContent = 'Criar Conta';
+        toggle.textContent = 'Já tenho conta';
+      } else {
+        btn.textContent = 'Entrar';
+        toggle.textContent = 'Criar nova conta';
+      }
       document.getElementById('loginError').classList.add('hidden');
     });
 
-    // Logout
     document.getElementById('btnLogout').addEventListener('click', async () => {
       if (unsubscribeWorkflows) unsubscribeWorkflows();
       await signOut(auth);
     });
 
-    // Load Workflows (Real-time)
+    // Carregar workflows
     async function loadWorkflows() {
       if (!currentUser) return;
 
@@ -947,16 +668,15 @@
 
     function renderWorkflows() {
       const list = document.getElementById('workflowList');
+      if (!list) return;
       list.innerHTML = '';
-
-      workflows.forEach(wf => {
+      if (workflows.length === 0) { list.innerHTML = '<div style="text-align:center; padding:30px; color:#888;">Nenhum workflow criado</div>'; return; }
+      workflows.forEach((wf) => {
         const div = document.createElement('div');
         div.className = 'workflow-item';
-        if (selectedWorkflow && selectedWorkflow.id === wf.id) {
-          div.classList.add('active');
-        }
+        if (selectedWorkflow && selectedWorkflow.id === wf.id) div.classList.add('active');
         div.textContent = wf.name;
-        div.addEventListener('click', () => selectWorkflow(wf));
+        div.onclick = () => selectWorkflow(wf);
         list.appendChild(div);
       });
     }
@@ -965,186 +685,98 @@
       selectedWorkflow = wf;
       renderWorkflows();
       renderWorkflowContent();
-      document.getElementById('btnDeleteWorkflow').classList.remove('hidden');
+      const delBtn = document.getElementById('btnDeleteWorkflow');
+      if (delBtn) delBtn.classList.remove('hidden');
     }
 
     function updateStats() {
-      document.getElementById('statTotal').textContent = workflows.length;
-
-      if (selectedWorkflow) {
-        const progress = getProgress(selectedWorkflow);
+      document.getElementById('statTotal').innerText = workflows.length;
+      if (selectedWorkflow && selectedWorkflow.steps && selectedWorkflow.steps.length > 0) {
+        const completed = selectedWorkflow.steps.filter(s => s.status === 'completed').length;
+        const percent = Math.round((completed / selectedWorkflow.steps.length) * 100);
         const inProgress = selectedWorkflow.steps.filter(s => s.status === 'progress').length;
-        document.getElementById('statProgress').textContent = progress + '%';
-        document.getElementById('statCurrent').textContent = inProgress;
+        document.getElementById('statProgress').innerText = percent + '%';
+        document.getElementById('statCurrent').innerText = inProgress;
         document.getElementById('progressSection').classList.remove('hidden');
-        document.getElementById('progressBar').style.width = progress + '%';
-        document.getElementById('progressText').textContent = progress + '% Completo';
+        document.getElementById('progressBar').style.width = percent + '%';
+        document.getElementById('progressText').innerText = percent + '% Completo';
       } else {
-        document.getElementById('statProgress').textContent = '0%';
-        document.getElementById('statCurrent').textContent = '0';
+        document.getElementById('statProgress').innerText = '0%';
+        document.getElementById('statCurrent').innerText = '0';
         document.getElementById('progressSection').classList.add('hidden');
       }
     }
 
-    function getProgress(workflow) {
-      if (!workflow || !workflow.steps || workflow.steps.length === 0) return 0;
-      const completed = workflow.steps.filter(s => s.status === 'completed').length;
-      return Math.round((completed / workflow.steps.length) * 100);
-    }
-
-    // Create Workflow
-    document.getElementById('btnAddWorkflow').addEventListener('click', async () => {
-      const name = document.getElementById('newWorkflowName').value.trim();
-      if (!name) return;
-
-      const newWorkflow = {
-        name,
-        steps: [],
-        createdAt: Date.now()
-      };
-
-      const docRef = doc(collection(db, 'users', currentUser.uid, 'workflows'));
-      await setDoc(docRef, newWorkflow);
-      document.getElementById('newWorkflowName').value = '';
-    });
-
-    // Delete Workflow
-    document.getElementById('btnDeleteWorkflow').addEventListener('click', async () => {
-      if (!selectedWorkflow) return;
-      if (!confirm('Excluir este workflow?')) return;
-
-      await deleteDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id));
-      selectedWorkflow = null;
-      document.getElementById('btnDeleteWorkflow').classList.add('hidden');
-      renderWorkflowContent();
-    });
-
-    // Render Workflow Content
     function renderWorkflowContent() {
       const container = document.getElementById('workflowContent');
-
+      if (!container) return;
       if (!selectedWorkflow) {
-        container.innerHTML = `
-          <div style="text-align: center; padding: 60px 20px;">
-            <h2 style="color: #10b981; margin-bottom: 10px;">Nenhum workflow selecionado</h2>
-            <p style="color: rgba(255,255,255,0.6);">Crie um novo workflow para começar</p>
-          </div>
-        `;
+        container.innerHTML = `<div style="text-align:center;padding:60px 20px;"><div style="color:#10b981;font-size:48px;">📋</div><h3>Nenhum workflow selecionado</h3><p style="color:rgba(255,255,255,0.6);">Crie ou selecione um workflow</p></div>`;
         return;
       }
-
-      let html = `
-        <h2 class="workflow-title">${selectedWorkflow.name}</h2>
+      container.innerHTML = `
+        <div class="workflow-title">${escapeHtml(selectedWorkflow.name)}</div>
         <div class="input-group">
-          <input type="text" id="newStepName" class="input" placeholder="Nome da etapa" />
-          <input type="date" id="newStepDate" class="input" style="width: 180px" />
-          <button id="btnAddStep" class="btn-add"><i data-lucide="plus"></i></button>
+          <input type="text" id="newStepName" class="input" placeholder="Nome da etapa..." />
+          <input type="date" id="newStepDate" class="input" style="width:180px" />
+          <button id="btnAddStep" class="btn-add"><i class="fas fa-plus"></i> Adicionar</button>
         </div>
         <div id="stepsList"></div>
       `;
-
-      container.innerHTML = html;
-      lucide.createIcons();
-
       document.getElementById('btnAddStep').addEventListener('click', addStep);
       renderSteps();
-      updateStats();
     }
 
     async function addStep() {
-      const name = document.getElementById('newStepName').value.trim();
-      const dueDate = document.getElementById('newStepDate').value;
-
-      if (!name || !dueDate) return;
-
-      const newStep = {
-        id: Date.now().toString(),
-        name,
-        dueDate,
-        status: selectedWorkflow.steps.length === 0 ? 'progress' : 'pending',
-        comments: [],
-        subtasks: []
-      };
-
+      const name = document.getElementById('newStepName')?.value.trim();
+      const dueDate = document.getElementById('newStepDate')?.value;
+      if (!name) { alert('Digite o nome da etapa'); return; }
+      if (!dueDate) { alert('Selecione uma data'); return; }
+      const newStep = { id: Date.now().toString(), name, dueDate, status: selectedWorkflow.steps.length === 0 ? 'progress' : 'pending', comments: [], subtasks: [] };
       const updatedSteps = [...selectedWorkflow.steps, newStep];
-      await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), {
-        ...selectedWorkflow,
-        steps: updatedSteps
-      });
-
+      await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), { ...selectedWorkflow, steps: updatedSteps });
       document.getElementById('newStepName').value = '';
       document.getElementById('newStepDate').value = '';
     }
 
     function renderSteps() {
       const container = document.getElementById('stepsList');
-      if (!selectedWorkflow.steps || selectedWorkflow.steps.length === 0) {
-        container.innerHTML = '';
-        return;
-      }
-
+      if (!selectedWorkflow.steps || !selectedWorkflow.steps.length) { if (container) container.innerHTML = ''; return; }
       let html = '';
       selectedWorkflow.steps.forEach((step, idx) => {
         const isLocked = idx > 0 && selectedWorkflow.steps[idx - 1].status !== 'completed';
         const overdue = step.status !== 'completed' && new Date(step.dueDate) < new Date();
-
-        const iconName = isLocked ? 'lock' : (step.status === 'completed' ? 'check' : 'play');
-
+        const icon = isLocked ? 'fa-lock' : (step.status === 'completed' ? 'fa-check-circle' : 'fa-play-circle');
         html += `
           <div class="step-wrapper">
             ${idx > 0 ? '<div class="connector"></div>' : ''}
             <div class="step-card ${overdue ? 'overdue' : ''}">
               <div class="step-header">
-                <div class="step-icon">
-                  <i data-lucide="${iconName}"></i>
-                </div>
+                <div class="step-icon"><i class="fas ${icon}"></i></div>
                 <div class="step-info">
-                  <div class="step-name">${step.name}</div>
-                  <div class="step-date">
-                    <i data-lucide="calendar"></i>
-                    ${new Date(step.dueDate).toLocaleDateString('pt-BR')}
-                  </div>
+                  <div class="step-name">${escapeHtml(step.name)}</div>
+                  <div class="step-date"><i class="far fa-calendar-alt"></i> ${new Date(step.dueDate).toLocaleDateString('pt-BR')}</div>
                 </div>
                 <div class="step-actions">
-                  ${!isLocked && step.status !== 'completed' ? 
-                    `<button class="btn-complete" data-step-id="${step.id}">Concluir</button>` : ''}
-                  <button class="btn-expand" data-step-id="${step.id}">+</button>
+                  ${!isLocked && step.status !== 'completed' ? `<button class="btn-complete" data-step-id="${step.id}"><i class="fas fa-check"></i> Concluir</button>` : ''}
+                  <button class="btn-expand" data-step-id="${step.id}"><i class="fas fa-chevron-down"></i></button>
                 </div>
               </div>
               <div id="details-${step.id}" class="step-details hidden">
                 <div>
-                  <h4 class="subsection-title">Sub-etapas</h4>
-                  <div id="subtasks-${step.id}">
-                    ${step.subtasks.map(st => `
-                      <div class="subtask">
-                        <input type="checkbox" ${st.done ? 'checked' : ''} data-step-id="${step.id}" data-subtask-id="${st.id}">
-                        <span style="${st.done ? 'text-decoration: line-through' : ''}">${st.text}</span>
-                      </div>
-                    `).join('')}
-                  </div>
-                  <div class="input-group">
-                    <input type="text" id="newSubtask-${step.id}" class="input" placeholder="Nova sub-etapa" />
-                    <button class="btn-add" data-step-id="${step.id}" data-add-subtask="true">+</button>
+                  <div class="subsection-title"><i class="fas fa-tasks"></i> Sub-etapas</div>
+                  <div id="subtasks-${step.id}">${step.subtasks.map(st => `<div class="subtask"><input type="checkbox" data-step-id="${step.id}" data-subtask-id="${st.id}" ${st.done ? 'checked' : ''}> <span style="${st.done ? 'text-decoration:line-through' : ''}">${escapeHtml(st.text)}</span></div>`).join('')}</div>
+                  <div class="input-group" style="margin-top:10px;">
+                    <input type="text" id="newSubtask-${step.id}" class="input" placeholder="Nova sub-etapa..." style="flex:1;" />
+                    <button class="btn-add" data-add-subtask="${step.id}"><i class="fas fa-plus"></i></button>
                   </div>
                 </div>
-                <div style="margin-top: 20px;">
-                  <h4 class="subsection-title">
-                    <i data-lucide="message-square"></i> Comentários
-                  </h4>
-                  <div id="comments-${step.id}">
-                    ${step.comments.map(c => `
-                      <div class="comment">
-                        <div class="comment-header">
-                          <strong>${c.user}</strong>
-                          <span class="comment-date">${c.date}</span>
-                        </div>
-                        <div class="comment-text">${c.text}</div>
-                      </div>
-                    `).join('')}
-                  </div>
-                  <div class="input-group">
-                    <input type="text" id="newComment-${step.id}" class="input" placeholder="Adicionar comentário" />
-                    <button class="btn-add" data-step-id="${step.id}" data-add-comment="true">Enviar</button>
+                <div style="margin-top:20px;">
+                  <div class="subsection-title"><i class="fas fa-comments"></i> Comentários</div>
+                  <div id="comments-${step.id}">${step.comments.map(c => `<div class="comment"><div class="comment-header"><strong>${escapeHtml(c.user)}</strong> <span class="comment-date">${c.date}</span></div><div class="comment-text">${escapeHtml(c.text)}</div></div>`).join('')}</div>
+                  <div class="input-group" style="margin-top:10px;">
+                    <input type="text" id="newComment-${step.id}" class="input" placeholder="Adicionar comentário..." style="flex:1;" />
+                    <button class="btn-add" data-add-comment="${step.id}"><i class="fas fa-paper-plane"></i></button>
                   </div>
                 </div>
               </div>
@@ -1152,220 +784,96 @@
           </div>
         `;
       });
-
       container.innerHTML = html;
-      lucide.createIcons();
-
-      // Event listeners para botões dinâmicos
-      document.querySelectorAll('.btn-complete').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const stepId = btn.getAttribute('data-step-id');
-          completeStep(stepId);
-        });
-      });
-
-      document.querySelectorAll('.btn-expand').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const stepId = btn.getAttribute('data-step-id');
-          const details = document.getElementById(`details-${stepId}`);
-          if (details) details.classList.toggle('hidden');
-          lucide.createIcons();
-        });
-      });
-
-      document.querySelectorAll('[data-add-subtask="true"]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const stepId = btn.getAttribute('data-step-id');
-          const input = document.getElementById(`newSubtask-${stepId}`);
-          addSubtask(stepId, input.value);
-          input.value = '';
-        });
-      });
-
-      document.querySelectorAll('[data-add-comment="true"]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const stepId = btn.getAttribute('data-step-id');
-          const input = document.getElementById(`newComment-${stepId}`);
-          addComment(stepId, input.value);
-          input.value = '';
-        });
-      });
-
-      document.querySelectorAll('.subtask input[type="checkbox"]').forEach(cb => {
-        cb.addEventListener('change', () => {
-          const stepId = cb.getAttribute('data-step-id');
-          const subtaskId = cb.getAttribute('data-subtask-id');
-          toggleSubtask(stepId, subtaskId);
-        });
-      });
+      attachStepEvents();
     }
 
-    window.toggleStep = (stepId) => {
-      const details = document.getElementById(`details-${stepId}`);
-      if (details) details.classList.toggle('hidden');
-      lucide.createIcons();
-    };
+    function attachStepEvents() {
+      document.querySelectorAll('.btn-complete').forEach(btn => btn.addEventListener('click', () => completeStep(btn.getAttribute('data-step-id'))));
+      document.querySelectorAll('.btn-expand').forEach(btn => btn.addEventListener('click', () => { const d = document.getElementById(`details-${btn.getAttribute('data-step-id')}`); if (d) d.classList.toggle('hidden'); }));
+      document.querySelectorAll('[data-add-subtask]').forEach(btn => btn.addEventListener('click', () => { const stepId = btn.getAttribute('data-add-subtask'); const input = document.getElementById(`newSubtask-${stepId}`); addSubtask(stepId, input.value); input.value = ''; }));
+      document.querySelectorAll('[data-add-comment]').forEach(btn => btn.addEventListener('click', () => { const stepId = btn.getAttribute('data-add-comment'); const input = document.getElementById(`newComment-${stepId}`); addComment(stepId, input.value); input.value = ''; }));
+      document.querySelectorAll('.subtask input[type="checkbox"]').forEach(cb => cb.addEventListener('change', () => toggleSubtask(cb.getAttribute('data-step-id'), cb.getAttribute('data-subtask-id'))));
+    }
 
-    window.completeStep = async (stepId) => {
-      const stepIdx = selectedWorkflow.steps.findIndex(s => s.id === stepId);
-      if (stepIdx === -1) return;
+    async function completeStep(stepId) {
+      const idx = selectedWorkflow.steps.findIndex(s => s.id === stepId);
+      if (idx === -1) return;
+      selectedWorkflow.steps[idx].status = 'completed';
+      if (idx + 1 < selectedWorkflow.steps.length) selectedWorkflow.steps[idx + 1].status = 'progress';
+      await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), { ...selectedWorkflow, steps: selectedWorkflow.steps });
+    }
 
-      const updatedSteps = [...selectedWorkflow.steps];
-      updatedSteps[stepIdx].status = 'completed';
+    async function addSubtask(stepId, text) { if (!text) return; const idx = selectedWorkflow.steps.findIndex(s => s.id === stepId); selectedWorkflow.steps[idx].subtasks.push({ id: Date.now().toString(), text, done: false }); await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), { ...selectedWorkflow, steps: selectedWorkflow.steps }); renderSteps(); }
+    async function toggleSubtask(stepId, subtaskId) { const stepIdx = selectedWorkflow.steps.findIndex(s => s.id === stepId); const subtaskIdx = selectedWorkflow.steps[stepIdx].subtasks.findIndex(st => st.id === subtaskId); selectedWorkflow.steps[stepIdx].subtasks[subtaskIdx].done = !selectedWorkflow.steps[stepIdx].subtasks[subtaskIdx].done; await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), { ...selectedWorkflow, steps: selectedWorkflow.steps }); renderSteps(); }
+    async function addComment(stepId, text) { if (!text) return; const idx = selectedWorkflow.steps.findIndex(s => s.id === stepId); selectedWorkflow.steps[idx].comments.push({ user: currentUser.email, text, date: new Date().toLocaleString('pt-BR') }); await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), { ...selectedWorkflow, steps: selectedWorkflow.steps }); renderSteps(); }
 
-      if (stepIdx + 1 < updatedSteps.length) {
-        updatedSteps[stepIdx + 1].status = 'progress';
-      }
+    async function createWorkflow() {
+      const name = document.getElementById('newWorkflowName')?.value.trim();
+      if (!name) { alert('Digite um nome para o workflow'); return; }
+      const newWorkflow = { name, steps: [], createdAt: Date.now() };
+      const docRef = doc(collection(db, 'users', currentUser.uid, 'workflows'));
+      await setDoc(docRef, newWorkflow);
+      document.getElementById('newWorkflowName').value = '';
+    }
 
-      await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), {
-        ...selectedWorkflow,
-        steps: updatedSteps
-      });
-    };
+    async function deleteWorkflow() {
+      if (!selectedWorkflow) return;
+      if (!confirm('Excluir este workflow?')) return;
+      await deleteDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id));
+      selectedWorkflow = null;
+      document.getElementById('btnDeleteWorkflow').classList.add('hidden');
+      renderWorkflowContent();
+    }
 
-    window.addSubtask = async (stepId, text) => {
-      if (!text) return;
-      const stepIdx = selectedWorkflow.steps.findIndex(s => s.id === stepId);
-      const updatedSteps = [...selectedWorkflow.steps];
-      updatedSteps[stepIdx].subtasks.push({
-        id: Date.now().toString(),
-        text,
-        done: false
-      });
-      await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), {
-        ...selectedWorkflow,
-        steps: updatedSteps
-      });
-    };
+    async function deleteAllWorkflows() {
+      if (!confirm('Excluir TODOS os workflows?')) return;
+      const workflowsRef = collection(db, 'users', currentUser.uid, 'workflows');
+      const snapshot = await getDocs(workflowsRef);
+      for (const docSnap of snapshot.docs) await deleteDoc(docSnap.ref);
+      selectedWorkflow = null;
+      document.getElementById('btnDeleteWorkflow').classList.add('hidden');
+    }
 
-    window.toggleSubtask = async (stepId, subtaskId) => {
-      const stepIdx = selectedWorkflow.steps.findIndex(s => s.id === stepId);
-      const updatedSteps = [...selectedWorkflow.steps];
-      const subtaskIdx = updatedSteps[stepIdx].subtasks.findIndex(st => st.id === subtaskId);
-      updatedSteps[stepIdx].subtasks[subtaskIdx].done = !updatedSteps[stepIdx].subtasks[subtaskIdx].done;
-      await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), {
-        ...selectedWorkflow,
-        steps: updatedSteps
-      });
-    };
+    async function deleteAccount() {
+      if (!confirm('Excluir sua conta permanentemente?')) return;
+      const workflowsRef = collection(db, 'users', currentUser.uid, 'workflows');
+      const snapshot = await getDocs(workflowsRef);
+      for (const docSnap of snapshot.docs) await deleteDoc(docSnap.ref);
+      await deleteUser(currentUser);
+    }
 
-    window.addComment = async (stepId, text) => {
-      if (!text) return;
-      const stepIdx = selectedWorkflow.steps.findIndex(s => s.id === stepId);
-      const updatedSteps = [...selectedWorkflow.steps];
-      updatedSteps[stepIdx].comments.push({
-        user: currentUser.email,
-        text,
-        date: new Date().toLocaleString('pt-BR')
-      });
-      await setDoc(doc(db, 'users', currentUser.uid, 'workflows', selectedWorkflow.id), {
-        ...selectedWorkflow,
-        steps: updatedSteps
-      });
-    };
-
-    // Settings Modal
-    document.getElementById('btnSettings').addEventListener('click', () => {
-      document.getElementById('settingsModal').classList.remove('hidden');
-    });
-
-    document.getElementById('btnCloseSettings').addEventListener('click', () => {
-      document.getElementById('settingsModal').classList.add('hidden');
-    });
-
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-
-        const tabName = tab.dataset.tab;
-        document.getElementById('tabSecurity').classList.add('hidden');
-        document.getElementById('tabDanger').classList.add('hidden');
-
-        if (tabName === 'security') {
-          document.getElementById('tabSecurity').classList.remove('hidden');
-        } else {
-          document.getElementById('tabDanger').classList.remove('hidden');
-        }
-        lucide.createIcons();
-      });
-    });
-
-    // Change Password
-    document.getElementById('btnChangePassword').addEventListener('click', async () => {
+    async function changePassword() {
       const current = document.getElementById('currentPassword').value;
       const newPass = document.getElementById('newPassword').value;
       const confirm = document.getElementById('confirmPassword').value;
       const errorDiv = document.getElementById('passwordError');
-
       errorDiv.classList.add('hidden');
-
-      if (!current || !newPass || !confirm) {
-        errorDiv.textContent = 'Preencha todos os campos';
-        errorDiv.classList.remove('hidden');
-        return;
-      }
-
-      if (newPass.length < 6) {
-        errorDiv.textContent = 'Nova senha deve ter no mínimo 6 caracteres';
-        errorDiv.classList.remove('hidden');
-        return;
-      }
-
-      if (newPass !== confirm) {
-        errorDiv.textContent = 'As senhas não coincidem';
-        errorDiv.classList.remove('hidden');
-        return;
-      }
-
+      if (!current || !newPass || !confirm) { errorDiv.textContent = 'Preencha todos os campos'; errorDiv.classList.remove('hidden'); return; }
+      if (newPass.length < 6) { errorDiv.textContent = 'Nova senha mínimo 6 caracteres'; errorDiv.classList.remove('hidden'); return; }
+      if (newPass !== confirm) { errorDiv.textContent = 'As senhas não coincidem'; errorDiv.classList.remove('hidden'); return; }
       try {
         const credential = EmailAuthProvider.credential(currentUser.email, current);
         await reauthenticateWithCredential(currentUser, credential);
         await updatePassword(currentUser, newPass);
-        alert('Senha alterada com sucesso!');
+        alert('Senha alterada!');
         document.getElementById('currentPassword').value = '';
         document.getElementById('newPassword').value = '';
         document.getElementById('confirmPassword').value = '';
-      } catch (error) {
-        console.error('Erro:', error);
-        errorDiv.textContent = 'Senha atual incorreta';
-        errorDiv.classList.remove('hidden');
-      }
-    });
+      } catch (error) { errorDiv.textContent = 'Senha atual incorreta'; errorDiv.classList.remove('hidden'); }
+    }
 
-    // Delete All Workflows
-    document.getElementById('btnDeleteAllWorkflows').addEventListener('click', async () => {
-      if (!confirm('ATENÇÃO: Isso excluirá TODOS os seus workflows permanentemente. Confirma?')) return;
+    function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[m]); }
 
-      const workflowsRef = collection(db, 'users', currentUser.uid, 'workflows');
-      const snapshot = await getDocs(workflowsRef);
-      
-      for (const docSnapshot of snapshot.docs) {
-        await deleteDoc(docSnapshot.ref);
-      }
-
-      selectedWorkflow = null;
-      document.getElementById('settingsModal').classList.add('hidden');
-    });
-
-    // Delete Account
-    document.getElementById('btnDeleteAccount').addEventListener('click', async () => {
-      if (!confirm('ATENÇÃO: Isso excluirá sua conta e todos os dados permanentemente. Confirma?')) return;
-
-      try {
-        const workflowsRef = collection(db, 'users', currentUser.uid, 'workflows');
-        const snapshot = await getDocs(workflowsRef);
-        
-        for (const docSnapshot of snapshot.docs) {
-          await deleteDoc(docSnapshot.ref);
-        }
-
-        await deleteUser(currentUser);
-      } catch (error) {
-        console.error('Erro:', error);
-        alert('Erro ao excluir conta. Tente fazer login novamente.');
-      }
-    });
+    document.getElementById('btnAddWorkflow').onclick = createWorkflow;
+    document.getElementById('btnDeleteWorkflow').onclick = deleteWorkflow;
+    document.getElementById('btnDeleteAllWorkflows').onclick = deleteAllWorkflows;
+    document.getElementById('btnDeleteAccount').onclick = deleteAccount;
+    document.getElementById('btnChangePassword').onclick = changePassword;
+    document.getElementById('btnSettings').onclick = () => document.getElementById('settingsModal').classList.remove('hidden');
+    document.getElementById('btnCloseSettings').onclick = () => document.getElementById('settingsModal').classList.add('hidden');
+    document.querySelectorAll('.tab').forEach(tab => tab.onclick = () => { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); document.getElementById('tabSecurity').classList.toggle('hidden', tab.dataset.tab !== 'security'); document.getElementById('tabDanger').classList.toggle('hidden', tab.dataset.tab !== 'danger'); });
+    window.onclick = (e) => { if (e.target === document.getElementById('settingsModal')) document.getElementById('settingsModal').classList.add('hidden'); };
   </script>
 </body>
 </html>
